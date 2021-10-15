@@ -32,7 +32,7 @@
             <configuration>
               <transformers>
                 <transformer>
-                  <mainClass>Main</mainClass>
+                  <mainClass>bot.Main</mainClass>
                 </transformer>
               </transformers>
             </configuration>

@@ -1,9 +1,8 @@
 package commands;
-
-import bot.Bot;
+import bot.BotLogic;
 
 public class NotUnderstand {
-    public static String notUnderstand(Bot bot, String command){
+    public static String notUnderstand(BotLogic bot, String command){
         return "Похоже, я тебя не понимаю, напиши \"помощь\", чтобы узнать, что я могу";
     }
 }

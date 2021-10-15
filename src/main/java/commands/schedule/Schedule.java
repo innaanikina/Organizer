@@ -9,10 +9,10 @@ public class Schedule implements Serializable {
 
     public Schedule(String d) {
         weekDay = d;
-        subjects = makeFT201DaySchedule(d);
+        subjects = makeFT401DaySchedule(d);
     }
 
-    public ArrayList<ScheduleElement> makeFT201DaySchedule(String day) {
+    public ArrayList<ScheduleElement> makeFT401DaySchedule(String day) {
         ArrayList<ScheduleElement> daySchedule = new ArrayList<ScheduleElement>();
         String[] subjects = new String[]{"Объектно-ориентированное программирование",
                 "Архитектура ЭВМ", "Иностранный язык", "Дискретная математика", "Языки сценариев",

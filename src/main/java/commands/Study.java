@@ -1,17 +1,14 @@
 package commands;
-
+import bot.BotLogic;
+import bot.State;
 import commands.schedule.Schedule;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import bot.Bot;
-import bot.Status;
-
-
 public class Study {
 
-    private transient List<String> weekDays = new ArrayList<String>() {{
+    private static transient List<String> weekDays = new ArrayList<String>() {{
         add("пн");
         add("вт");
         add("ср");
@@ -20,45 +17,38 @@ public class Study {
         add("сб");
 
     }};
-
-    public String getSchedule(String day) {
+    public static String getSchedule(String day) {
         Schedule daySchedule = new Schedule(day);
         return daySchedule.getDaySchedule();
     }
-
-    public String mainMenu(Bot bot, String command) {
-        bot.statusActive = Status.STUDY;
-        return "Напиши 'пары', чтобы посмотреть расписание\n'меню' - выход в меню";
+    public static String startClasses(BotLogic bot, String command) {
+        bot.statusActive = State.state.CLASSES;
+        return "Введите день недели \n(в формате: пн, вт, ср, чт, пт, сб)";
     }
 
-    public String startClasses(Bot bot, String command) {
-        bot.statusActive = Status.CLASSES;
-        return "Введи день недели (в формате: пн, вт, ср, чт, пт, сб)";
+    public static String mainMenu(BotLogic bot, String command) {
+        bot.statusActive = State.state.STUDY;
+        return "Вы в разделе учёбы";
     }
 
-    public String getClasses(Bot bot, String command) {
+    public static String getClasses(BotLogic bot, String command) {
         if (weekDays.contains(command.toLowerCase())) {
             String word = getSchedule(command.toLowerCase());
-            return word + "Посмотри другой день или пиши 'меню', чтобы выйти";
+            return word;
         } else
-            return def(bot, command);
+            return NotUnderstand.notUnderstand(bot, command);
     }
 
-    public String studyHelp(Bot bot, String command) {
-        return "Напиши 'пары' - получи расписание\n'меню' - выход в меню";
+    public static String studyHelp(BotLogic bot, String command) {
+        return "Доступные действия:\n\n* пары - посмотреть расписание\n* меню - выход в меню";
     }
 
-    public String classesHelp(Bot bot, String command) {
-        return "Чтобы посмотреть расписание на другой день, напиши день недели в формате 'пн'\n" +
-                "меню - вернуться в главное меню";
+    public static String classesHelp(BotLogic bot, String command) {
+        return "Доступные действия:\n\n* чтобы посмотреть расписание на другой день, выбери день недели\n" +
+                "* меню - вернуться в главное меню";
     }
 
-    public String quitToMenu(Bot bot, String command) {
-        bot.statusActive = Status.MENU;
-        return "Выход в главное меню";
-    }
-
-    public String def(Bot bot, String command) {
-        return "Напиши 'помощь' - тебе помогут ;)";
+    public static List<String> getWeekDays() {
+        return weekDays;
     }
 }

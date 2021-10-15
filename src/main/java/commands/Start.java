@@ -1,15 +1,14 @@
 package commands;
-
-import bot.Bot;
-import bot.Status;
+import bot.BotLogic;
+import bot.State;
 
 public class Start {
-    public static String start(Bot bot, String command) {
-        return "Привет, я бот! Напиши 'помощь', и я расскажу, что умею :)";
+    public static String start(BotLogic bot, String command) {
+        return "Привет, я бот!\n Напиши 'помощь', и я расскажу, что умею :)";
     }
 
-    public static String help(Bot bot, String command) {
-        bot.statusActive = Status.MENU;
-        return Help.help(bot, command);
+    public static String help(BotLogic bot, String command) {
+        bot.statusActive = State.state.MENU;
+        return Menu.help(bot, command);
     }
 }
