@@ -25,11 +25,11 @@ public class Main extends BotPrimitive {
 
     public static Main bot;
     private BotLogic botLogic;
-    private static Reader reader = new Reader();
+    private static FileWorker fileWorker = new FileWorker();
 
     private static ConcurrentHashMap<Long, BotLogic> users = new ConcurrentHashMap<>();
 
-    public static void main(String[] args) throws IOException, TelegramApiException, ClassNotFoundException {
+    public static void main(String[] args) throws TelegramApiException {
        try {
             Main.setBotToken(Key.get_token());
             TelegramBotsApi telegramBotsApi = new TelegramBotsApi(DefaultBotSession.class);
@@ -93,7 +93,7 @@ public class Main extends BotPrimitive {
     public static void save() throws IOException {
         GsonBuilder gsonBuilder = new GsonBuilder().excludeFieldsWithModifiers(Modifier.TRANSIENT);
         Gson gson = gsonBuilder.create();
-        FileWriter writer = reader.getFileWriter("/src/main/resources/users.out");
+        FileWriter writer = fileWorker.getFileWriter("/src/main/resources/users.out");
 
         writer.write(gson.toJson(users));
         writer.close();
@@ -101,7 +101,7 @@ public class Main extends BotPrimitive {
 
     public static void restore() {
         Gson gson = new Gson();
-        var json = reader.readFile("/src/main/resources/users.out");
+        var json = fileWorker.readFile("/src/main/resources/users.out");
 
         Type collectionType = new TypeToken<ConcurrentHashMap<Long, BotLogic>>() {
         }.getType();

@@ -10,7 +10,7 @@ import java.util.List;
 
 public class Study {
 
-    private static transient List<String> weekDays = new ArrayList<String>() {{
+    private static transient List<String> weekDays = new ArrayList<>() {{
         add("пн");
         add("вт");
         add("ср");

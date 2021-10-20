@@ -11,6 +11,7 @@ public class BotPrimitive extends TelegramLongPollingBot {
     private static final String BOT_NAME = "Organizer Bot";
     private static String BOT_TOKEN = "";
 
+    //наследуемое
     @Override
     public void onUpdateReceived(Update update) {
     }
@@ -29,6 +30,8 @@ public class BotPrimitive extends TelegramLongPollingBot {
         BOT_TOKEN = token;
     }
 
+
+    //новое
     static ReplyKeyboardMarkup getReplyKeyboardMarkup() {
         ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();//инициализация клавиатуры
 

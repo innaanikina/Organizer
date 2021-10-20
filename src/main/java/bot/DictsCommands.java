@@ -76,8 +76,8 @@ class DictsCommands {
     }
 
     private void setHiddenCommands(){
-        var reader = new Reader();
-        hiddenCommands = reader.readFileArray("src/main/resources/hiddenCommand.txt");
+        var fileWorker = new FileWorker();
+        hiddenCommands = fileWorker.readFileArray("src/main/resources/hiddenCommand.txt");
     }
 
     HashMap<State.state, HashMap<String, BiFunction<BotLogic, String, String>>> getCommands(){

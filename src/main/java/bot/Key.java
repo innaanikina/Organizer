@@ -1,18 +1,29 @@
 package bot;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 
 class Key {
-    static String get_token() throws IOException {
+    static String get_token()  {
         String path = new File("").getAbsolutePath();
         String path_to_token = path.substring(0, path.lastIndexOf("\\")) + "\\";
-        BufferedReader br = new BufferedReader(new FileReader(path_to_token+"\\"+"TOKEN"));
-        String s = br.readLine();
 
-        br.close();
+        BufferedReader br = null;
+
+        try {
+            br = new BufferedReader(new FileReader(path_to_token+"\\"+"TOKEN"));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        String s = null;
+
+        try {
+            s = br.readLine();
+            br.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         return s;
     }
 }
