@@ -9,7 +9,7 @@ public class Start {
     }
 
     public static String help(BotLogic bot, String command) {
-        bot.statusActive = State.state.MENU;
+        bot.statusActive = State.MENU;
         return Menu.help(bot, command);
     }
 }

@@ -26,12 +26,12 @@ public class Study {
     }
 
     public static String startClasses(BotLogic bot, String command) {
-        bot.statusActive = State.state.CLASSES;
+        bot.statusActive = State.CLASSES;
         return "Введите день недели \n(в формате: пн, вт, ср, чт, пт, сб)";
     }
 
     public static String mainMenu(BotLogic bot, String command) {
-        bot.statusActive = State.state.STUDY;
+        bot.statusActive = State.STUDY;
         return "Вы в разделе учёбы";
     }
 

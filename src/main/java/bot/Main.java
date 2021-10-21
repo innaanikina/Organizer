@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.vdurmont.emoji.EmojiParser;
+import commands.organizer.Organizer;
 import javassist.Modifier;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -25,21 +26,49 @@ public class Main extends BotPrimitive {
 
     public static Main bot;
     private BotLogic botLogic;
-    private static Reader reader = new Reader();
+    private static final Reader reader = new Reader();
 
     private static ConcurrentHashMap<Long, BotLogic> users = new ConcurrentHashMap<>();
 
-    public static void main(String[] args) throws IOException, TelegramApiException, ClassNotFoundException {
-       try {
+    public static void main(String[] args) throws IOException, TelegramApiException {
+        try {
             Main.setBotToken(Key.getToken());
             TelegramBotsApi telegramBotsApi = new TelegramBotsApi(DefaultBotSession.class);
             bot = new Main();
             restore();
 
             telegramBotsApi.registerBot(bot);
+            Thread t = new CheckDeadlines();
+            t.start();
 
         } catch (ArrayIndexOutOfBoundsException e) {
             e.printStackTrace();
+        }
+    }
+
+    public static class CheckDeadlines extends Thread {
+        @Override
+        public void run() {
+            while (true) {
+                for (Long a : users.keySet()) {
+                    String res = Organizer.checkDeadlines(users.get(a));
+                    if (!res.equals("")) {
+                        SendMessage sendMessage = new SendMessage();
+                        sendMessage.setChatId(a.toString());
+                        sendMessage.setText(res);
+                        try {
+                            bot.execute(sendMessage);
+                        } catch (TelegramApiException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+                try {
+                    Thread.sleep(10000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
@@ -50,9 +79,7 @@ public class Main extends BotPrimitive {
         if (message != null && message.hasText()) {
             try {
                 processingMessage(message);
-            } catch (TelegramApiException | NullPointerException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
+            } catch (TelegramApiException | NullPointerException | IOException e) {
                 e.printStackTrace();
             }
         }
@@ -79,12 +106,12 @@ public class Main extends BotPrimitive {
             return;
 
         SendMessage sendMessage = getSendMessage(message, text);
-        sendMessage.enableMarkdown(false);
+        //sendMessage.enableMarkdown(false);
 
         try {
             addButtons(sendMessage, message);
             bot.execute(sendMessage);
-        } catch (TelegramApiException e) {
+        } catch (TelegramApiException | NullPointerException e) {
             e.printStackTrace();
         }
     }
@@ -119,23 +146,23 @@ public class Main extends BotPrimitive {
         sendMessage.setReplyMarkup(replyKeyboardMarkup);
 
         List<KeyboardRow> keyboardRowList = new ArrayList<>();
-        KeyboardRow keyboardFirstRow = new KeyboardRow();
+        KeyboardRow keyboardRow = new KeyboardRow();
         int count = 0;
 
         for (String command : currentCommands) {
-            if (command != null){
-                keyboardFirstRow.add(new KeyboardButton(command));
+            if (command != null) {
+                keyboardRow.add(new KeyboardButton(command));
                 count++;
             }
 
             if (count == 3) {
-                keyboardRowList.add(keyboardFirstRow);
-                keyboardFirstRow = new KeyboardRow();
+                keyboardRowList.add(keyboardRow);
+                keyboardRow = new KeyboardRow();
                 count = 0;
             }
         } // внешний вид
 
-        keyboardRowList.add(keyboardFirstRow);
+        keyboardRowList.add(keyboardRow);
         replyKeyboardMarkup.setKeyboard(keyboardRowList);
     }
 }

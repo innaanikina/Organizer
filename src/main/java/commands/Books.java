@@ -14,7 +14,7 @@ public class Books {
     }
 
     public static String quitToBookMenu(BotLogic bot, String command) {
-        bot.statusActive = State.state.BOOKS;
+        bot.statusActive = State.BOOKS;
         return "Вы в меню книг";
     }
 }

@@ -4,7 +4,7 @@ import java.io.*;
 import java.util.HashSet;
 
 class Reader {
-    private bot.AbsPath absPath = new bot.AbsPath(); //получает путь до части /srs
+    private bot.AbsPath absPath = new bot.AbsPath(); //получает путь до части /src
 
     String readFile(String nameFile) {
         try {
@@ -31,7 +31,7 @@ class Reader {
             FileReader fileReader = new FileReader(file);
             BufferedReader reader = new BufferedReader(fileReader);
             String line = reader.readLine();
-            HashSet<String> text = new HashSet<String>();
+            HashSet<String> text = new HashSet<>();
 
             while (line != null) {
                 text.add(line);
