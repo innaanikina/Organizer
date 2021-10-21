@@ -26,7 +26,7 @@ public class Main extends BotPrimitive {
 
     public static Main bot;
     private BotLogic botLogic;
-    private static final Reader reader = new Reader();
+    private static final FileWorker FILE_WORKER = new FileWorker();
 
     private static ConcurrentHashMap<Long, BotLogic> users = new ConcurrentHashMap<>();
 
@@ -120,7 +120,7 @@ public class Main extends BotPrimitive {
     public static void save() throws IOException {
         GsonBuilder gsonBuilder = new GsonBuilder().excludeFieldsWithModifiers(Modifier.TRANSIENT);
         Gson gson = gsonBuilder.create();
-        FileWriter writer = reader.getFileWriter("/src/main/resources/users.out");
+        FileWriter writer = FILE_WORKER.getFileWriter("/src/main/resources/users.out");
 
         writer.write(gson.toJson(users));
         writer.close();
@@ -128,7 +128,7 @@ public class Main extends BotPrimitive {
 
     public static void restore() {
         Gson gson = new Gson();
-        var json = reader.readFile("/src/main/resources/users.out");
+        var json = FILE_WORKER.readFile("/src/main/resources/users.out");
 
         Type collectionType = new TypeToken<ConcurrentHashMap<Long, BotLogic>>() {
         }.getType();

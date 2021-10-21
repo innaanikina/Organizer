@@ -3,7 +3,7 @@ package bot;
 import java.io.*;
 import java.util.HashSet;
 
-class Reader {
+class FileWorker {
     private bot.AbsPath absPath = new bot.AbsPath(); //получает путь до части /src
 
     String readFile(String nameFile) {

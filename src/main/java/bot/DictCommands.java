@@ -168,7 +168,7 @@ class DictCommands {
     }
 
     private void setHiddenCommands(){
-        var reader = new Reader();
+        var reader = new FileWorker();
         hiddenCommands = reader.readFileArray("src/main/resources/hiddenCommand.txt");
     }
 
