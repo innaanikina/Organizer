@@ -1,11 +1,19 @@
 package bot;
 
-public class State {
-    public enum state {
+public enum State {
         START,
         MENU,
         STUDY,
         CLASSES,
-        BOOKS
+        BOOKS,
+        ORGANIZER,
+        ORGANIZER_ADD,
+        ORGANIZER_DELETE,
+        ORGANIZER_DEADLINE1,
+        ORGANIZER_DEADLINE2,
+        ORGANIZER_EDIT,
+        ORGANIZER_EDIT_CHOICE,
+        ORGANIZER_EDIT_TIME,
+        ORGANIZER_EDIT_TASK,
+        ORGANIZER_COMPLETE
     }
-}

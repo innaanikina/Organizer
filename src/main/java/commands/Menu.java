@@ -13,7 +13,7 @@ public class Menu {
     }
 
     public static String quitToMenu(BotLogic bot, String command) {
-        bot.statusActive = State.state.MENU;
+        bot.statusActive = State.MENU;
         return "Вы в главном меню";
     }
 }
