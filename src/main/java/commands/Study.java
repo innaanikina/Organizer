@@ -7,7 +7,6 @@ import commands.schedule.Schedule;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class Study {
 
     private static transient List<String> weekDays = new ArrayList<String>() {{
@@ -24,7 +23,6 @@ public class Study {
         Schedule daySchedule = new Schedule(day);
         return daySchedule.getDaySchedule();
     }
-
     public static String startClasses(BotLogic bot, String command) {
         bot.statusActive = State.CLASSES;
         return "Введите день недели \n(в формате: пн, вт, ср, чт, пт, сб)";
@@ -37,8 +35,7 @@ public class Study {
 
     public static String getClasses(BotLogic bot, String command) {
         if (weekDays.contains(command.toLowerCase())) {
-            String word = getSchedule(command.toLowerCase());
-            return word;
+            return getSchedule(command.toLowerCase());
         } else
             return NotUnderstand.notUnderstand(bot, command);
     }
