@@ -9,4 +9,5 @@ public interface BotLogicsRepository extends JpaRepository<BotLogics, Long> {
 // здесь писать методы доступа к сущностям
     @Override
     Optional<BotLogics> findById(Long botLogicId);
+
 }

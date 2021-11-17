@@ -1,7 +1,12 @@
 package bot.entities;
 
+//import bot.DictCommands;
+//import bot.State;
+
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 @Entity
 @Table(schema="organizer_bot", name="botLogic")
@@ -21,6 +26,33 @@ public class BotLogics {
 
     @OneToMany(mappedBy = "botLogic")
     private List<Organizer> organizer;
+
+    public BotLogics() {
+        //updateCurrentCommands()
+    }
+
+//    private void updateCurrentCommands() {
+//         List<String> weekDays = new ArrayList<String>() {{
+//            add("пн");add("вт");add("ср");add("чт");add("пт");add("сб"); }};
+//
+//         String newcommands = "";
+//
+//        var allCommands = new DictCommands().getCommands();
+//        var hiddenCommands = new DictCommands().getHiddenCommands();
+//        var commands = allCommands.get(statusActive).keySet();
+//        var newCommands = new CopyOnWriteArrayList<String>();
+//
+//        if (statusActive == "CLASSES"){
+//            newCommands.addAll(weekDays);
+//        }
+//        for (String s : commands){
+//            if (hiddenCommands.add(s)) {
+//                newCommands.add(s);
+//            }
+//        }
+//
+//        currentCommands = newcommands;
+//    }
 
     //getters and setters
 
@@ -60,7 +92,7 @@ public class BotLogics {
         return organizer;
     }
 
-    public void setOrganizer(List<Organizer>  organizer) {
+    public void setOrganizer(ArrayList<Organizer>  organizer) {
         this.organizer = organizer;
     }
 }

@@ -6,6 +6,9 @@ import bot.repository.DeadlinesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class DeadlinesService {
     @Autowired
@@ -18,4 +21,5 @@ public class DeadlinesService {
     public void createDeadlines(Deadlines deadlines){
         deadlinesRepository.save(deadlines);
     }
+    public ArrayList<Deadlines> getAll(){return (ArrayList<Deadlines>) deadlinesRepository.findAll();}
 }

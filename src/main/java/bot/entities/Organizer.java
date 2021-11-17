@@ -25,7 +25,9 @@ public class Organizer {
     @JoinColumn(name = "botLogic_id")
     private BotLogics botLogic;
 
-    //getters and setters
+    public Organizer() {
+    }
+//getters and setters
 
     public Long getId() {
         return id;

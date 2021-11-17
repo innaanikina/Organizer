@@ -23,6 +23,9 @@ public class Deadlines {
     @OneToOne(mappedBy = "deadlines")
     private Organizer organizer;
 
+    public Deadlines() {
+    }
+
     public Long getDeadlineID() {
         return deadlineID;
     }
