@@ -38,12 +38,46 @@ public class OrganizerBotApplication {
 		botLogics.setStatusActive("START");
 		botLogics.setEditTask(2);
 		botLogics.setCurrentCommands("fff");
-		botLogics.setBotLogicID((long)1);
+		botLogics.setUserID(1);
+
+		BotLogics botLogics1 = new BotLogics();
+		botLogics1.setStatusActive("STOP");
+		botLogics1.setEditTask(2);
+		botLogics1.setCurrentCommands("fff");
+		botLogics1.setUserID(2);
 
 //		ArrayList<Organizer> a = new ArrayList<Organizer>();
 //
 //		botLogics.setOrganizer(a);
+
+
+		ArrayList<BotLogics> list = new ArrayList<BotLogics>();
+		list.add(botLogics);
+		list.add(botLogics1);
+		BotLogics d = list.get(0);
+
+		for(int i = 0; i < 2; i++){
+			if(list.get(i).getUserID() == 2)
+				System.out.println("yes");
+		}
+		if(botLogics.getOrganizer() == null){
+			System.out.println("no");
+		}
+		BotLogics botLogics2 = new BotLogics();
+		if(botLogics2.getUserID() != 1)
+			System.out.println("ok");
+		botLogics2 = botLogics;
+		if(botLogics2.getUserID() != 1){
+			System.out.println("magic");
+			System.out.println(botLogics2.getUserID());
+			System.out.println(botLogics2.getBotLogicID());
+			System.out.println(botLogics.getUserID());
+			System.out.println(botLogics.getBotLogicID());
+		}
+
+
 		botLogicsService.createBotLogics(botLogics);
+		botLogicsService.createBotLogics(botLogics1);
 
 		Organizer organizer = new Organizer();
 		organizer.setId((long)1);

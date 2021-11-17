@@ -12,7 +12,11 @@ import java.util.concurrent.CopyOnWriteArrayList;
 @Table(schema="organizer_bot", name="botLogic")
 public class BotLogics {
     @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long botLogicID;
+
+    @Column
+    private int userID;
 
     //public State statusActive = State.START;
     @Column(columnDefinition="text")
@@ -55,6 +59,18 @@ public class BotLogics {
 //    }
 
     //getters and setters
+
+    public int getUserID() {
+        return userID;
+    }
+
+    public void setUserID(int userID) {
+        this.userID = userID;
+    }
+
+    public void setOrganizer(List<Organizer> organizer) {
+        this.organizer = organizer;
+    }
 
     public Long getBotLogicID() {
         return botLogicID;
