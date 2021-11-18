@@ -21,7 +21,7 @@ public class Deadlines {
     private Boolean twelve_hour;
 
     @OneToOne(mappedBy = "deadlines")
-    private Organizer organizer;
+    private Organizers organizer;
 
     public Deadlines() {
     }
@@ -66,11 +66,11 @@ public class Deadlines {
         this.twelve_hour = twelve_hour;
     }
 
-    public Organizer getOrganizer() {
+    public Organizers getOrganizer() {
         return organizer;
     }
 
-    public void setOrganizer(Organizer organizer) {
+    public void setOrganizer(Organizers organizer) {
         this.organizer = organizer;
     }
 }

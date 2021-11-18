@@ -1,6 +1,6 @@
 package bot.services;
 
-import bot.entities.Organizer;
+import bot.entities.Organizers;
 import bot.repository.OrganizerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,9 +16,9 @@ public class OrganizerService {
         this.organizerRepository = organizerRepository;
     }
 
-    public void createOrganizer(Organizer organizer){
+    public void createOrganizer(Organizers organizer){
         organizerRepository.save(organizer);
     }
 
-    public ArrayList<Organizer> getAll(){return (ArrayList<Organizer>) organizerRepository.findAll();}
+    public ArrayList<Organizers> getAll(){return (ArrayList<Organizers>) organizerRepository.findAll();}
 }

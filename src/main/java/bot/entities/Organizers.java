@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(schema="organizer_bot", name="organizer")
-public class Organizer {
+public class Organizers {
     @Id
     private Long id;
 
@@ -25,7 +25,7 @@ public class Organizer {
     @JoinColumn(name = "botLogic_id")
     private BotLogics botLogic;
 
-    public Organizer() {
+    public Organizers() {
     }
 //getters and setters
 

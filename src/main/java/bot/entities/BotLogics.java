@@ -12,7 +12,11 @@ import java.util.concurrent.CopyOnWriteArrayList;
 @Table(schema="organizer_bot", name="botLogic")
 public class BotLogics {
     @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long botLogicID;
+
+    @Column
+    private int userID;
 
     //public State statusActive = State.START;
     @Column(columnDefinition="text")
@@ -25,11 +29,29 @@ public class BotLogics {
     private int editTask;
 
     @OneToMany(mappedBy = "botLogic")
-    private List<Organizer> organizer;
+    private List<Organizers> organizer;
 
     public BotLogics() {
         //updateCurrentCommands()
     }
+
+//    private void updateCurrentCommands() {
+//        var allCommands = new DictCommands().getCommands();
+//        var hiddenCommands = new DictCommands().getHiddenCommands();
+//        var commands = allCommands.get(statusActive).keySet();
+//        var newCommands = new CopyOnWriteArrayList<String>();
+//
+//        if (statusActive == State.CLASSES){
+//            var weekDays = Study.getWeekDays();
+//            newCommands.addAll(weekDays);
+//        }
+//        for (String s : commands){
+//            if (hiddenCommands.add(s)) {
+//                newCommands.add(s);
+//            }
+//        }
+//        currentCommands = newCommands;
+//    }
 
 //    private void updateCurrentCommands() {
 //         List<String> weekDays = new ArrayList<String>() {{
@@ -55,6 +77,18 @@ public class BotLogics {
 //    }
 
     //getters and setters
+
+    public int getUserID() {
+        return userID;
+    }
+
+    public void setUserID(int userID) {
+        this.userID = userID;
+    }
+
+    public void setOrganizer(List<Organizers> organizer) {
+        this.organizer = organizer;
+    }
 
     public Long getBotLogicID() {
         return botLogicID;
@@ -88,11 +122,11 @@ public class BotLogics {
         this.editTask = editTask;
     }
 
-    public List<Organizer> getOrganizer() {
+    public List<Organizers> getOrganizer() {
         return organizer;
     }
 
-    public void setOrganizer(ArrayList<Organizer>  organizer) {
+    public void setOrganizer(ArrayList<Organizers>  organizer) {
         this.organizer = organizer;
     }
 }
