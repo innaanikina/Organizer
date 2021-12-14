@@ -38,8 +38,8 @@ public class LogicBot {
     public LogicBot(Long id) {
         this.id = id;
         User user = new User();
-        user.setCurrentCommands();
-
+        // to do?
+        userService.createUser(user);
     }
 
     String getAnswer(String line) {
@@ -55,7 +55,7 @@ public class LogicBot {
         Set<String> commands = allCommands.get(statusActive).keySet();
         CopyOnWriteArrayList<String> newCommands = new CopyOnWriteArrayList<String>();
 
-        if (statusActive == "CLASSES"){
+        if (statusActive.equals("CLASSES")){
             List<String> weekDays = Study.getWeekDays();
             newCommands.addAll(weekDays);
         }

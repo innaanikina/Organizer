@@ -8,7 +8,7 @@ public class Start {
     }
 
     public static String help(LogicBot bot, String command) {
-        //bot.statusActive = State.MENU;
+        bot.statusActive = "MENU";
         bot.userService.updateStatusActiveByUserId(bot.id, "MENU");
         return "Давай посмотрим, что я умею:\n\n" +
                 " * помощь - список команд\n" +

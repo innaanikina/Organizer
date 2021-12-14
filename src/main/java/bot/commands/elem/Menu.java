@@ -12,7 +12,7 @@ public class Menu {
     }
 
     public static String quitToMenu(LogicBot bot, String command) {
-        //bot.statusActive = State.MENU;
+        bot.statusActive = "MENU";
         bot.userService.updateStatusActiveByUserId(bot.id, "MENU");
         return "Вы в главном меню";
     }

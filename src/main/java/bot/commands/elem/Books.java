@@ -13,7 +13,7 @@ public class Books {
     }
 
     public static String quitToBookMenu(LogicBot bot, String command) {
-        //bot.statusActive = State.BOOKS;
+        bot.statusActive = "BOOK";
         bot.userService.updateStatusActiveByUserId(bot.id, "BOOK");
         //менять команды одновременно?
         return "Вы в меню книг";

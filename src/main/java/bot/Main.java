@@ -10,6 +10,7 @@ import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
@@ -21,6 +22,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Main extends BotPrimitive {
 
@@ -35,7 +37,8 @@ public class Main extends BotPrimitive {
             Main.setBotToken(Key.getToken());
             TelegramBotsApi telegramBotsApi = new TelegramBotsApi(DefaultBotSession.class);
             bot = new Main();
-           // restore();
+            ///
+            restore();
 
             telegramBotsApi.registerBot(bot);
             Thread t = new CheckDeadlines();
@@ -90,7 +93,7 @@ public class Main extends BotPrimitive {
         Long chatId = message.getChatId();
 
         if (!(users.containsKey(chatId))) {
-            users.put(chatId, new LogicBot());
+            users.put(chatId, new LogicBot(chatId));
         }
         botLogic = users.get(chatId);
         String result = botLogic.getAnswer(message.getText());
@@ -98,6 +101,7 @@ public class Main extends BotPrimitive {
         botLogic.updateStatusActive(botLogic);
 
         sendMsg(message, result);
+        ///
         save();
     }
 
@@ -128,9 +132,9 @@ public class Main extends BotPrimitive {
 
     public static void restore() {
         Gson gson = new Gson();
-        var json = reader.readFile("/src/main/resources/users.out");
+        String json = reader.readFile("/src/main/resources/users.out");
 
-        Type collectionType = new TypeToken<ConcurrentHashMap<Long, BotLogic>>() {
+        Type collectionType = new TypeToken<ConcurrentHashMap<Long, LogicBot>>() {
         }.getType();
 
         if (!json.equals("")) {
@@ -140,8 +144,8 @@ public class Main extends BotPrimitive {
 
     /// Keyboard ///
     private void addButtons(SendMessage sendMessage, Message message) {
-        var currentCommands = botLogic.getCurrentCommands();
-        var replyKeyboardMarkup = getReplyKeyboardMarkup();//инициализация клавиатуры
+        CopyOnWriteArrayList<String> currentCommands = botLogic.getCurrentCommands();
+        ReplyKeyboardMarkup replyKeyboardMarkup = getReplyKeyboardMarkup();//инициализация клавиатуры
 
         sendMessage.setReplyMarkup(replyKeyboardMarkup);
 
