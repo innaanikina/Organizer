@@ -9,14 +9,10 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 @Entity
-@Table(schema="organizer_bot", name="botLogic")
-public class BotLogics {
+@Table(schema="organizer_bot", name="user")
+public class User {
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private Long botLogicID;
-
-    @Column
-    private int userID;
+    private Long userID;
 
     //public State statusActive = State.START;
     @Column(columnDefinition="text")
@@ -28,10 +24,11 @@ public class BotLogics {
     @Column
     private int editTask;
 
-    @OneToMany(mappedBy = "botLogic")
+    @OneToMany()
+    @JoinColumn(name ="user_id")
     private List<Organizer> organizer;
 
-    public BotLogics() {
+    public User() {
         //updateCurrentCommands()
     }
 
@@ -60,24 +57,12 @@ public class BotLogics {
 
     //getters and setters
 
-    public int getUserID() {
+    public Long getUserID() {
         return userID;
     }
 
-    public void setUserID(int userID) {
+    public void setUserID(Long userID) {
         this.userID = userID;
-    }
-
-    public void setOrganizer(List<Organizer> organizer) {
-        this.organizer = organizer;
-    }
-
-    public Long getBotLogicID() {
-        return botLogicID;
-    }
-
-    public void setBotLogicID(Long botLogicID) {
-        this.botLogicID = botLogicID;
     }
 
     public String getStatusActive() {
@@ -108,7 +93,7 @@ public class BotLogics {
         return organizer;
     }
 
-    public void setOrganizer(ArrayList<Organizer>  organizer) {
+    public void setOrganizer(List<Organizer> organizer) {
         this.organizer = organizer;
     }
 }

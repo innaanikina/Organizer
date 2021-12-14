@@ -19,6 +19,17 @@ public class OrganizerService {
     public void createOrganizer(Organizer organizer){
         organizerRepository.save(organizer);
     }
+    public void create(String task){
+        Organizer organizer = new Organizer();
+        organizer.setTask(task);
+        organizer.setFlag("NO_CHECK");
+        organizer.setDate();
+    }
+    public OrganizerElement(String task) {
+        this.flag = Flag.NO_CHECK;
+        this.task = task;
+        date = new GregorianCalendar();
+    }
 
     public ArrayList<Organizer> getAll(){return (ArrayList<Organizer>) organizerRepository.findAll();}
 }

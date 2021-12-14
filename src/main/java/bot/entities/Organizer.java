@@ -6,7 +6,8 @@ import javax.persistence.*;
 @Table(schema="organizer_bot", name="organizer")
 public class Organizer {
     @Id
-    private Long id;
+    @GeneratedValue
+    private Long organizeID;
 
     @Column(columnDefinition="text")
     private String flag;
@@ -15,26 +16,29 @@ public class Organizer {
     private String task;
 
     @Column
-    private Long date;
+    private String date;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "deadline_id")
+    @JoinColumn(name = "deadlineID")
     private Deadlines deadlines;
 
-    @ManyToOne
-    @JoinColumn(name = "botLogic_id")
-    private BotLogics botLogic;
-
-    public Organizer() {
-    }
+    public Organizer() { }
 //getters and setters
 
-    public Long getId() {
-        return id;
+    public Long getOrganizeID() {
+        return organizeID;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setOrganizeID(Long organizeID) {
+        this.organizeID = organizeID;
+    }
+
+    public Deadlines getDeadlines() {
+        return deadlines;
+    }
+
+    public void setDeadlines(Deadlines deadlines) {
+        this.deadlines = deadlines;
     }
 
     public String getFlag() {
@@ -53,27 +57,11 @@ public class Organizer {
         this.task = task;
     }
 
-    public Long getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Long date) {
+    public void setDate(String date) {
         this.date = date;
-    }
-
-    public Deadlines getMy_deadlines() {
-        return deadlines;
-    }
-
-    public void setMy_deadlines(Deadlines my_deadlines) {
-        this.deadlines = my_deadlines;
-    }
-
-    public BotLogics getBotLogic() {
-        return botLogic;
-    }
-
-    public void setBotLogic(BotLogics botLogic) {
-        this.botLogic = botLogic;
     }
 }
