@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 
 @Service
 public class OrganizerService {
@@ -19,16 +20,13 @@ public class OrganizerService {
     public void createOrganizer(Organizer organizer){
         organizerRepository.save(organizer);
     }
+
     public void create(String task){
         Organizer organizer = new Organizer();
         organizer.setTask(task);
         organizer.setFlag("NO_CHECK");
-        organizer.setDate();
-    }
-    public OrganizerElement(String task) {
-        this.flag = Flag.NO_CHECK;
-        this.task = task;
-        date = new GregorianCalendar();
+        organizer.setDate(new GregorianCalendar().toString());
+        createOrganizer(organizer);
     }
 
     public ArrayList<Organizer> getAll(){return (ArrayList<Organizer>) organizerRepository.findAll();}

@@ -11,14 +11,18 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 @SpringBootApplication
 public class OrganizerBotApplication {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException, TelegramApiException {
 		SpringApplication.run(OrganizerBotApplication.class, args);
+		Main main = new Main();
+		main.main(args);
 	}
 
 	@EventListener(ApplicationReadyEvent.class)

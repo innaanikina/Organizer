@@ -95,19 +95,11 @@ public class Organizer implements Serializable {
         bot.userService.updateStatusActiveByUserId(bot.id, "ORGANIZER_ADD");
         return "Введи новую задачу:";
     }
-    public OrganizerElement(String task) {
-        this.flag = Flag.NO_CHECK;
-        this.task = task;
-        date = new GregorianCalendar();
-    }
-
     public static String pushTask(LogicBot bot, String command) {
         //to do
         bot.organizer.add(new OrganizerElement(command));
 
-        bot.organizerService.createOrganizer(task);
-        //bot.statusActive = State.ORGANIZER;
-        bot.userService.updateOrganizerByUserId(bot.id, );
+        bot.organizerService.create(command);
 
         bot.statusActive = "ORGANIZER";
         bot.userService.updateStatusActiveByUserId(bot.id, "ORGANIZER");
@@ -115,14 +107,18 @@ public class Organizer implements Serializable {
     }
 
     public static String startComplete(LogicBot bot, String command) {
-        bot.statusActive = State.ORGANIZER_COMPLETE;
+        bot.statusActive = "ORGANIZER_COMPLETE";
+        bot.userService.updateStatusActiveByUserId(bot.id, "ORGANIZER_COMPLETE");
         return "Введи номер задачи";
     }
 
     public static String completed(LogicBot bot, String command) {
         try {
             bot.organizer.get(Integer.parseInt(command) - 1).flag = Flag.COMPLETED;
-            bot.statusActive = State.ORGANIZER;
+            ///
+
+            bot.statusActive = "ORGANIZER";
+            bot.userService.updateStatusActiveByUserId(bot.id, "ORGANIZER");
             return "Выполнено";
         } catch (IndexOutOfBoundsException e) {
             return "Неверный номер задания";
@@ -131,17 +127,19 @@ public class Organizer implements Serializable {
         }
     }
 
-    public static String startDelete(BotLogic bot, String command) {
-        bot.statusActive = State.ORGANIZER_DELETE;
+    public static String startDelete(LogicBot bot, String command) {
+        bot.statusActive = "ORGANIZER_DELETE";
+        bot.userService.updateStatusActiveByUserId(bot.id, "ORGANIZER_DELETE");
         return "Введи номер задачи, которую нужно удалить";
     }
 
-    public static String delete(BotLogic bot, String command) {
+    public static String delete(LogicBot bot, String command) {
         try {
-            var taskNum = Integer.parseInt(command) - 1;
-            var task = bot.organizer.get(taskNum);
+            Integer taskNum = Integer.parseInt(command) - 1;
+            OrganizerElement task = bot.organizer.get(taskNum);
             bot.deadlines.remove(task.getDeadlineName());
             bot.organizer.remove(taskNum);
+            ///
             return "Удалено, текущий список задач:\n\n" + all(bot, command);
         } catch (IndexOutOfBoundsException e) {
             return "Неверный номер задачи";
@@ -150,30 +148,33 @@ public class Organizer implements Serializable {
         }
     }
 
-    public static String startDeadline(BotLogic bot, String command) {
+    public static String startDeadline(LogicBot bot, String command) {
         if (bot.organizer.size() == 0) {
             return "Задач пока нет";
         }
-        bot.statusActive = State.ORGANIZER_DEADLINE1;
+        bot.statusActive = "ORGANIZER_DEADLINE1";
+        bot.userService.updateStatusActiveByUserId(bot.id, "ORGANIZER_DEADLINE1");
         return "Введи номер задачи:";
     }
 
-    public static String startDeadlineDate(BotLogic bot, String command) {
+    public static String startDeadlineDate(LogicBot bot, String command) {
         try {
-            var deadlineTaskNum = Integer.parseInt(command) - 1;
-            var task = bot.organizer.get(deadlineTaskNum);
+            Integer deadlineTaskNum = Integer.parseInt(command) - 1;
+            OrganizerElement task = bot.organizer.get(deadlineTaskNum);
             bot.edits.put("deadline", deadlineTaskNum);
         } catch (Exception e) {
             return "Неправильный ввод";
         }
-        bot.statusActive = State.ORGANIZER_DEADLINE2;
+        bot.statusActive = "ORGANIZER_DEADLINE2";
+        bot.userService.updateStatusActiveByUserId(bot.id, "ORGANIZER_DEADLINE2");
         return "Введи дату и время в формате ДД.ММ.ГГ ЧЧ:ММ:СС";
     }
 
-    public static String pushDeadline(BotLogic bot, String command) {
+    public static String pushDeadline(LogicBot bot, String command) {
         GregorianCalendar date = parseDate(bot, command);
         if (date == null) {
-            bot.statusActive = State.ORGANIZER;
+            bot.statusActive = "ORGANIZER";
+            bot.userService.updateStatusActiveByUserId(bot.id, "ORGANIZER");
             return "Ошибка ввода";
         }
         OrganizerElement task = bot.organizer.get(bot.edits.get("deadline"));
@@ -182,11 +183,12 @@ public class Organizer implements Serializable {
         bot.edits.remove("deadline");
         String taskName = task.getDeadlineName(date);
         updateValues(taskName, bot);
-        bot.statusActive = State.ORGANIZER;
+        bot.statusActive = "ORGANIZER";
+        bot.userService.updateStatusActiveByUserId(bot.id, "ORGANIZER");
         return "Дедлайн установлен";
     }
 
-    private static void updateValues(String key, BotLogic bot) {
+    private static void updateValues(String key, LogicBot bot) {
         if (!bot.deadlines.containsKey(key)) {
             HashMap<Integer, Boolean> times = new HashMap<>();
             times.put(86400000, false);
@@ -206,23 +208,23 @@ public class Organizer implements Serializable {
         return answers.get(key);
     }
 
-    private static void updateDeadline(BotLogic bot, OrganizerElement task, GregorianCalendar newDate) {
+    private static void updateDeadline(LogicBot bot, OrganizerElement task, GregorianCalendar newDate) {
         bot.deadlines.remove(task.getDeadlineName());
-        var newTaskName = task.getDeadlineName(newDate);
+        String newTaskName = task.getDeadlineName(newDate);
         updateValues(newTaskName, bot);
     }
 
-    private static void updateDeadline(BotLogic bot, OrganizerElement task, String newTask) {
+    private static void updateDeadline(LogicBot bot, OrganizerElement task, String newTask) {
         bot.deadlines.remove(task.getDeadlineName());
         System.out.println(task.getDeadlineName());
-        var newTaskName = task.getDeadlineName(newTask);
+        String newTaskName = task.getDeadlineName(newTask);
         updateValues(newTaskName, bot);
     }
 
 
-    private static GregorianCalendar parseDate(BotLogic bot, String command) {
-        var day = new SimpleDateFormat("dd.MM.yy", new Locale("ru"));
-        var dayTime = new SimpleDateFormat("dd.MM.yy HH:mm:ss", new Locale("ru"));
+    private static GregorianCalendar parseDate(LogicBot bot, String command) {
+        SimpleDateFormat day = new SimpleDateFormat("dd.MM.yy", new Locale("ru"));
+        SimpleDateFormat dayTime = new SimpleDateFormat("dd.MM.yy HH:mm:ss", new Locale("ru"));
         day.setLenient(false);
         dayTime.setLenient(false);
         Date date;
@@ -246,96 +248,107 @@ public class Organizer implements Serializable {
         }
     }
 
-    public static String showDeadlines(BotLogic bot, String command) {
+    public static String showDeadlines(LogicBot bot, String command) {
         if (bot.deadlines.isEmpty()) {
             return "Дедлайны не установлены";
         }
         StringBuilder tasks = new StringBuilder();
         tasks.append("Дедлайны:\n");
-        for (var o : bot.deadlines.keySet()) {
+        for (String o : bot.deadlines.keySet()) {
             tasks.append(o).append("\n");
         }
         return tasks.toString();
     }
 
-    public static String back(BotLogic bot, String command) {
-        bot.statusActive = State.ORGANIZER;
+    public static String back(LogicBot bot, String command) {
+        bot.statusActive = "ORGANIZER";
+        bot.userService.updateStatusActiveByUserId(bot.id, "ORGANIZER");
         bot.edits.remove("deadline");
         bot.edits.remove("edit");
         return "Меню органайзера";
     }
 
-    public static String quit(BotLogic bot, String command) {
-        bot.statusActive = State.MENU;
+    public static String quit(LogicBot bot, String command) {
+        bot.statusActive = "MENU";
+        bot.userService.updateStatusActiveByUserId(bot.id, "MENU");
         return "Выход в главное меню";
     }
 
-    public static String startEdit(BotLogic bot, String command) {
+    public static String startEdit(LogicBot bot, String command) {
         if (bot.organizer.size() == 0) {
             return "Нет заданий для редактирования";
         }
-        bot.statusActive = State.ORGANIZER_EDIT;
+        bot.statusActive = "ORGANIZER_EDIT";
+        bot.userService.updateStatusActiveByUserId(bot.id, "ORGANIZER_EDIT");
         return "Введи номер задания, которое надо изменить";
     }
 
-    public static String editChoice(BotLogic bot, String command) {
+    public static String editChoice(LogicBot bot, String command) {
         try {
-            var editTaskNum = Integer.parseInt(command) - 1;
+            Integer editTaskNum = Integer.parseInt(command) - 1;
             OrganizerElement task = bot.organizer.get(editTaskNum);
             bot.edits.put("edit", editTaskNum);
-            bot.statusActive = State.ORGANIZER_EDIT_CHOICE;
+            bot.statusActive = "ORGANIZER_EDIT_CHOICE";
+            bot.userService.updateStatusActiveByUserId(bot.id, "ORGANIZER_EDIT_CHOICE");
             return "Выбери параметр редактирования";
         } catch (Exception e) {
-            bot.statusActive = State.ORGANIZER;
+            bot.statusActive = "ORGANIZER";
+            bot.userService.updateStatusActiveByUserId(bot.id, "ORGANIZER");
             return "Неверный ввод";
         }
     }
 
-    public static String editTask(BotLogic bot, String command) {
-        bot.statusActive = State.ORGANIZER_EDIT_TASK;
+    public static String editTask(LogicBot bot, String command) {
+        bot.statusActive = "ORGANIZER_EDIT_TASK";
+        bot.userService.updateStatusActiveByUserId(bot.id, "ORGANIZER_EDIT_TASK");
         return "Введи новый текст задания";
     }
 
-    public static String editTime(BotLogic bot, String command) {
+    public static String editTime(LogicBot bot, String command) {
         try {
-            var editTaskNum = bot.edits.get("edit");
+            Integer editTaskNum = bot.edits.get("edit");
             OrganizerElement task = bot.organizer.get(editTaskNum);
             if (task.flag == Flag.NO_CHECK) {
-                bot.statusActive = State.ORGANIZER;
+                bot.statusActive = "ORGANIZER";
+                bot.userService.updateStatusActiveByUserId(bot.id, "ORGANIZER");
                 return "У этого задания не задано время выполнения";
             } else {
-                bot.statusActive = State.ORGANIZER_EDIT_TIME;
+                bot.statusActive = "ORGANIZER_EDIT_TIME";
+                bot.userService.updateStatusActiveByUserId(bot.id, "ORGANIZER_EDIT_TIME");
                 return "Введи новое время выполнения";
             }
         } catch (Exception e) {
-            bot.statusActive = State.ORGANIZER;
+            bot.statusActive = "ORGANIZER";
+            bot.userService.updateStatusActiveByUserId(bot.id, "ORGANIZER");
             return "Ошибка редактирования";
         }
     }
 
-    public static String pushEditTask(BotLogic bot, String command) {
-        var editTaskNum = bot.edits.get("edit");
-        var task = bot.organizer.get(editTaskNum);
+    public static String pushEditTask(LogicBot bot, String command) {
+        Integer editTaskNum = bot.edits.get("edit");
+        OrganizerElement task = bot.organizer.get(editTaskNum);
         bot.edits.remove("edit");
         if (task.flag != Flag.NO_CHECK) {
             updateDeadline(bot, task, command);
         }
         task.changeTask(command);
-        bot.statusActive = State.ORGANIZER;
+        bot.statusActive = "ORGANIZER";
+        bot.userService.updateStatusActiveByUserId(bot.id, "ORGANIZER");
         return "Задание успешно изменено";
     }
 
-    public static String pushEditTime(BotLogic bot, String command) {
-        var editTaskNum = bot.edits.get("edit");
-        var task = bot.organizer.get(editTaskNum);
-        var date = parseDate(bot, command);
+    public static String pushEditTime(LogicBot bot, String command) {
+        Integer editTaskNum = bot.edits.get("edit");
+        OrganizerElement task = bot.organizer.get(editTaskNum);
+        GregorianCalendar date = parseDate(bot, command);
         if (date == null) {
             return "Ошибка ввода";
         } else {
             updateDeadline(bot, task, date);
             task.changeDate(date);
             task.updateFlag();
-            bot.statusActive = State.ORGANIZER;
+            bot.statusActive = "ORGANIZER";
+            bot.userService.updateStatusActiveByUserId(bot.id, "ORGANIZER");
             return "Дата выполнения изменена";
         }
     }

@@ -1,6 +1,6 @@
 package bot;
 
-import bot.command.organizer.Organizer;
+import bot.commands.organizer.Organizer;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
