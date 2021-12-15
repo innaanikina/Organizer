@@ -43,7 +43,7 @@ public class LogicBot {
         user.setEditTask(edits.size());
         user.setStatusActive(statusActive);
         // to do?
-        userService.createUser(user);
+        UserService.createUser(user);
     }
 
     String getAnswer(String line) {
@@ -69,11 +69,12 @@ public class LogicBot {
             }
         }
         currentCommands = newCommands;
+        UserService.updateCurrentCommandsByUserId(id, currentCommands.toString());
     }
 
     void updateStatusActive(LogicBot user) {
         statusActive = user.statusActive;
-        userService.updateStatusActiveByUserId(user.id, user.statusActive);
+        UserService.updateStatusActiveByUserId(user.id, user.statusActive);
         updateCurrentCommands();
     }
 }
