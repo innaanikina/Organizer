@@ -14,7 +14,7 @@ public class BotPrimitive extends TelegramLongPollingBot {
     public String getBotUsername() { return BOT_NAME; }
 
     @Override
-    public String getBotToken() { return BOT_NAME; }
+    public String getBotToken() { return BOT_TOKEN; }
 
     @Override
     public void onUpdateReceived(Update update) {

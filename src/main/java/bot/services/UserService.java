@@ -14,42 +14,42 @@ import java.util.List;
 @Service
 public class UserService {
     @Autowired
-    private final UserRepository userRepository;
+    private static UserRepository userRepository;
 
     public UserService(UserRepository userRepository){
         this.userRepository = userRepository;
     }
 
-    public void createUser(User user){
+    public static void createUser(User user){
         userRepository.save(user);
     }
 
-    public User findById(Long botLogicId){
+    public static User findById(Long botLogicId){
         return userRepository.findById(botLogicId).orElse(null);
     }
 
-    public ArrayList<User> getAll(){return (ArrayList<User>) userRepository.findAll();}
+    public static ArrayList<User> getAll(){return (ArrayList<User>) userRepository.findAll();}
 
 
 
     @Transactional
-    public void updateStatusActiveByUserId(Long userID, String statusActive){
+    public static void updateStatusActiveByUserId(Long userID, String statusActive){
         userRepository.updateStatusActiveByUserId(userID, statusActive);
         //менять команды одновременно?
     }
 
     @Transactional
-    public void updateCurrentCommandsByUserId(Long userID, String currentCommands){
+    public static void updateCurrentCommandsByUserId(Long userID, String currentCommands){
         userRepository.updateCurrentCommandsByUserId(userID, currentCommands);
     }
 
     @Transactional
-    public void updateEditTaskByUserId(Long userID, int editTask){
+    public static void updateEditTaskByUserId(Long userID, int editTask){
         userRepository.updateEditTaskByUserId(userID, editTask);
     }
 
     @Transactional
-    public void updateOrganizerByUserId(Long userID, List<Organizer> organizers){
+    public static void updateOrganizerByUserId(Long userID, List<Organizer> organizers){
         userRepository.updateOrganizerByUserId(userID, organizers);
     }
 }

@@ -18,7 +18,7 @@ import java.util.function.BiFunction;
 
 public class LogicBot {
     public String statusActive = "START";
-    private CopyOnWriteArrayList<String> currentCommands;
+    private CopyOnWriteArrayList<String> currentCommands = new CopyOnWriteArrayList<>();
     public CopyOnWriteArrayList<OrganizerElement> organizer = new CopyOnWriteArrayList<>();
     public ConcurrentHashMap<String, HashMap<Integer, Boolean>> deadlines = new ConcurrentHashMap<>();
     public ConcurrentHashMap<String, Integer> edits = new ConcurrentHashMap<>();
@@ -38,6 +38,10 @@ public class LogicBot {
     public LogicBot(Long id) {
         this.id = id;
         User user = new User();
+        user.setUserID(id);
+        user.setCurrentCommands(currentCommands.toString());
+        user.setEditTask(edits.size());
+        user.setStatusActive(statusActive);
         // to do?
         userService.createUser(user);
     }

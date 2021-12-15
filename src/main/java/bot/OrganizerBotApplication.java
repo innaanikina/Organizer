@@ -39,15 +39,23 @@ public class OrganizerBotApplication {
 		user.setStatusActive("START");
 		user.setEditTask(2);
 		user.setCurrentCommands("fff");
-		user.setUserID((long)1);
+		user.setUserID((long)751261508);
 		userService.createUser(user);
 
 		User user1 = new User();
 		user1.setStatusActive("STOP");
 		user1.setEditTask(2);
 		user1.setCurrentCommands("abc");
-		user1.setUserID((long)2);
-		//userService.createUser(user1);
+		user1.setUserID((long)1726186793);
+		userService.createUser(user1);
+
+		User user2 = new User();
+		user2.setStatusActive("STOP");
+		user2.setEditTask(2);
+		user2.setCurrentCommands("abc");
+		user2.setUserID((long)232273443);
+		userService.createUser(user2);
+
 
 		ArrayList<Organizer> a = new ArrayList<Organizer>();
 
@@ -64,7 +72,8 @@ public class OrganizerBotApplication {
 		organizerService.createOrganizer(organizer);
 		userService.createUser(user1);
 
-		userService.updateStatusActiveByUserId( (long)1, "izmenen");
+		userService.updateStatusActiveByUserId( (long)232273443, "izmenen");
+		System.out.println("ok");
 	}
 
 	@Autowired
