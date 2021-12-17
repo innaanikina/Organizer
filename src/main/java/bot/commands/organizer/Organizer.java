@@ -28,7 +28,6 @@ public class Organizer implements Serializable {
     }
 
     public static String startOrganizer(LogicBot bot, String command) {
-        //bot.statusActive = State.ORGANIZER;
         bot.statusActive = "ORGANIZER";
         UserService.updateStatusActiveByUserId(bot.id, "ORGANIZER");
         return "Приветствую, я твой личный Time-Manager.";
@@ -91,16 +90,12 @@ public class Organizer implements Serializable {
     }
 
     public static String add(LogicBot bot, String command) {
-        //bot.statusActive = State.ORGANIZER_ADD;
         bot.statusActive = "ORGANIZER_ADD";
         UserService.updateStatusActiveByUserId(bot.id, "ORGANIZER_ADD");
         return "Введи новую задачу:";
     }
     public static String pushTask(LogicBot bot, String command) {
-        //to do
         bot.organizer.add(new OrganizerElement(command));
-
-        //bot.organizerService.create(command);
 
         bot.statusActive = "ORGANIZER";
         UserService.updateStatusActiveByUserId(bot.id, "ORGANIZER");
@@ -136,7 +131,7 @@ public class Organizer implements Serializable {
 
     public static String delete(LogicBot bot, String command) {
         try {
-            Integer taskNum = Integer.parseInt(command) - 1;
+            int taskNum = Integer.parseInt(command) - 1;
             OrganizerElement task = bot.organizer.get(taskNum);
             bot.deadlines.remove(task.getDeadlineName());
             bot.organizer.remove(taskNum);
@@ -160,7 +155,7 @@ public class Organizer implements Serializable {
 
     public static String startDeadlineDate(LogicBot bot, String command) {
         try {
-            Integer deadlineTaskNum = Integer.parseInt(command) - 1;
+            int deadlineTaskNum = Integer.parseInt(command) - 1;
             OrganizerElement task = bot.organizer.get(deadlineTaskNum);
             bot.edits.put("deadline", deadlineTaskNum);
         } catch (Exception e) {
@@ -286,7 +281,7 @@ public class Organizer implements Serializable {
 
     public static String editChoice(LogicBot bot, String command) {
         try {
-            Integer editTaskNum = Integer.parseInt(command) - 1;
+            int editTaskNum = Integer.parseInt(command) - 1;
             OrganizerElement task = bot.organizer.get(editTaskNum);
             bot.edits.put("edit", editTaskNum);
             bot.statusActive = "ORGANIZER_EDIT_CHOICE";
