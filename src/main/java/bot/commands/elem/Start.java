@@ -1,6 +1,7 @@
 package bot.commands.elem;
 
 import bot.LogicBot;
+import bot.services.UserService;
 
 public class Start {
     public static String start(LogicBot bot, String command) {
@@ -9,7 +10,7 @@ public class Start {
 
     public static String help(LogicBot bot, String command) {
         bot.statusActive = "MENU";
-        bot.userService.updateStatusActiveByUserId(bot.id, "MENU");
+        UserService.updateStatusActiveByUserId(bot.id, "MENU");
         return "Давай посмотрим, что я умею:\n\n" +
                 " * помощь - список команд\n" +
                 " * учеба - информация для учебы\n" +

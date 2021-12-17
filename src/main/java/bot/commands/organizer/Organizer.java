@@ -1,6 +1,7 @@
 package bot.commands.organizer;
 
 import bot.LogicBot;
+import bot.services.UserService;
 
 import java.io.Serializable;
 import java.text.ParseException;
@@ -29,7 +30,7 @@ public class Organizer implements Serializable {
     public static String startOrganizer(LogicBot bot, String command) {
         //bot.statusActive = State.ORGANIZER;
         bot.statusActive = "ORGANIZER";
-        bot.userService.updateStatusActiveByUserId(bot.id, "ORGANIZER");
+        UserService.updateStatusActiveByUserId(bot.id, "ORGANIZER");
         return "Приветствую, я твой личный Time-Manager.";
     }
 
@@ -92,23 +93,23 @@ public class Organizer implements Serializable {
     public static String add(LogicBot bot, String command) {
         //bot.statusActive = State.ORGANIZER_ADD;
         bot.statusActive = "ORGANIZER_ADD";
-        bot.userService.updateStatusActiveByUserId(bot.id, "ORGANIZER_ADD");
+        UserService.updateStatusActiveByUserId(bot.id, "ORGANIZER_ADD");
         return "Введи новую задачу:";
     }
     public static String pushTask(LogicBot bot, String command) {
         //to do
         bot.organizer.add(new OrganizerElement(command));
 
-        bot.organizerService.create(command);
+        //bot.organizerService.create(command);
 
         bot.statusActive = "ORGANIZER";
-        bot.userService.updateStatusActiveByUserId(bot.id, "ORGANIZER");
+        UserService.updateStatusActiveByUserId(bot.id, "ORGANIZER");
         return "Задача добавлена";
     }
 
     public static String startComplete(LogicBot bot, String command) {
         bot.statusActive = "ORGANIZER_COMPLETE";
-        bot.userService.updateStatusActiveByUserId(bot.id, "ORGANIZER_COMPLETE");
+        UserService.updateStatusActiveByUserId(bot.id, "ORGANIZER_COMPLETE");
         return "Введи номер задачи";
     }
 
@@ -118,7 +119,7 @@ public class Organizer implements Serializable {
             ///
 
             bot.statusActive = "ORGANIZER";
-            bot.userService.updateStatusActiveByUserId(bot.id, "ORGANIZER");
+            UserService.updateStatusActiveByUserId(bot.id, "ORGANIZER");
             return "Выполнено";
         } catch (IndexOutOfBoundsException e) {
             return "Неверный номер задания";
@@ -129,7 +130,7 @@ public class Organizer implements Serializable {
 
     public static String startDelete(LogicBot bot, String command) {
         bot.statusActive = "ORGANIZER_DELETE";
-        bot.userService.updateStatusActiveByUserId(bot.id, "ORGANIZER_DELETE");
+        UserService.updateStatusActiveByUserId(bot.id, "ORGANIZER_DELETE");
         return "Введи номер задачи, которую нужно удалить";
     }
 
@@ -153,7 +154,7 @@ public class Organizer implements Serializable {
             return "Задач пока нет";
         }
         bot.statusActive = "ORGANIZER_DEADLINE1";
-        bot.userService.updateStatusActiveByUserId(bot.id, "ORGANIZER_DEADLINE1");
+        UserService.updateStatusActiveByUserId(bot.id, "ORGANIZER_DEADLINE1");
         return "Введи номер задачи:";
     }
 
@@ -166,7 +167,7 @@ public class Organizer implements Serializable {
             return "Неправильный ввод";
         }
         bot.statusActive = "ORGANIZER_DEADLINE2";
-        bot.userService.updateStatusActiveByUserId(bot.id, "ORGANIZER_DEADLINE2");
+        UserService.updateStatusActiveByUserId(bot.id, "ORGANIZER_DEADLINE2");
         return "Введи дату и время в формате ДД.ММ.ГГ ЧЧ:ММ:СС";
     }
 
@@ -174,7 +175,7 @@ public class Organizer implements Serializable {
         GregorianCalendar date = parseDate(bot, command);
         if (date == null) {
             bot.statusActive = "ORGANIZER";
-            bot.userService.updateStatusActiveByUserId(bot.id, "ORGANIZER");
+            UserService.updateStatusActiveByUserId(bot.id, "ORGANIZER");
             return "Ошибка ввода";
         }
         OrganizerElement task = bot.organizer.get(bot.edits.get("deadline"));
@@ -184,7 +185,7 @@ public class Organizer implements Serializable {
         String taskName = task.getDeadlineName(date);
         updateValues(taskName, bot);
         bot.statusActive = "ORGANIZER";
-        bot.userService.updateStatusActiveByUserId(bot.id, "ORGANIZER");
+        UserService.updateStatusActiveByUserId(bot.id, "ORGANIZER");
         return "Дедлайн установлен";
     }
 
@@ -262,7 +263,7 @@ public class Organizer implements Serializable {
 
     public static String back(LogicBot bot, String command) {
         bot.statusActive = "ORGANIZER";
-        bot.userService.updateStatusActiveByUserId(bot.id, "ORGANIZER");
+        UserService.updateStatusActiveByUserId(bot.id, "ORGANIZER");
         bot.edits.remove("deadline");
         bot.edits.remove("edit");
         return "Меню органайзера";
@@ -270,7 +271,7 @@ public class Organizer implements Serializable {
 
     public static String quit(LogicBot bot, String command) {
         bot.statusActive = "MENU";
-        bot.userService.updateStatusActiveByUserId(bot.id, "MENU");
+        UserService.updateStatusActiveByUserId(bot.id, "MENU");
         return "Выход в главное меню";
     }
 
@@ -279,7 +280,7 @@ public class Organizer implements Serializable {
             return "Нет заданий для редактирования";
         }
         bot.statusActive = "ORGANIZER_EDIT";
-        bot.userService.updateStatusActiveByUserId(bot.id, "ORGANIZER_EDIT");
+        UserService.updateStatusActiveByUserId(bot.id, "ORGANIZER_EDIT");
         return "Введи номер задания, которое надо изменить";
     }
 
@@ -289,18 +290,18 @@ public class Organizer implements Serializable {
             OrganizerElement task = bot.organizer.get(editTaskNum);
             bot.edits.put("edit", editTaskNum);
             bot.statusActive = "ORGANIZER_EDIT_CHOICE";
-            bot.userService.updateStatusActiveByUserId(bot.id, "ORGANIZER_EDIT_CHOICE");
+            UserService.updateStatusActiveByUserId(bot.id, "ORGANIZER_EDIT_CHOICE");
             return "Выбери параметр редактирования";
         } catch (Exception e) {
             bot.statusActive = "ORGANIZER";
-            bot.userService.updateStatusActiveByUserId(bot.id, "ORGANIZER");
+            UserService.updateStatusActiveByUserId(bot.id, "ORGANIZER");
             return "Неверный ввод";
         }
     }
 
     public static String editTask(LogicBot bot, String command) {
         bot.statusActive = "ORGANIZER_EDIT_TASK";
-        bot.userService.updateStatusActiveByUserId(bot.id, "ORGANIZER_EDIT_TASK");
+        UserService.updateStatusActiveByUserId(bot.id, "ORGANIZER_EDIT_TASK");
         return "Введи новый текст задания";
     }
 
@@ -310,16 +311,16 @@ public class Organizer implements Serializable {
             OrganizerElement task = bot.organizer.get(editTaskNum);
             if (task.flag == Flag.NO_CHECK) {
                 bot.statusActive = "ORGANIZER";
-                bot.userService.updateStatusActiveByUserId(bot.id, "ORGANIZER");
+                UserService.updateStatusActiveByUserId(bot.id, "ORGANIZER");
                 return "У этого задания не задано время выполнения";
             } else {
                 bot.statusActive = "ORGANIZER_EDIT_TIME";
-                bot.userService.updateStatusActiveByUserId(bot.id, "ORGANIZER_EDIT_TIME");
+                UserService.updateStatusActiveByUserId(bot.id, "ORGANIZER_EDIT_TIME");
                 return "Введи новое время выполнения";
             }
         } catch (Exception e) {
             bot.statusActive = "ORGANIZER";
-            bot.userService.updateStatusActiveByUserId(bot.id, "ORGANIZER");
+            UserService.updateStatusActiveByUserId(bot.id, "ORGANIZER");
             return "Ошибка редактирования";
         }
     }
@@ -333,7 +334,7 @@ public class Organizer implements Serializable {
         }
         task.changeTask(command);
         bot.statusActive = "ORGANIZER";
-        bot.userService.updateStatusActiveByUserId(bot.id, "ORGANIZER");
+        UserService.updateStatusActiveByUserId(bot.id, "ORGANIZER");
         return "Задание успешно изменено";
     }
 
@@ -348,7 +349,7 @@ public class Organizer implements Serializable {
             task.changeDate(date);
             task.updateFlag();
             bot.statusActive = "ORGANIZER";
-            bot.userService.updateStatusActiveByUserId(bot.id, "ORGANIZER");
+            UserService.updateStatusActiveByUserId(bot.id, "ORGANIZER");
             return "Дата выполнения изменена";
         }
     }

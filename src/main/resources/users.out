@@ -1,1 +1,1 @@
-{"751261508":{"statusActive":"STUDY","currentCommands":["пары","меню","помощь"],"organizer":[],"deadlines":{},"edits":{},"id":751261508}}
+{"751261508":{"statusActive":"ORGANIZER","currentCommands":["добавить","добавить дедлайн","меню","редактировать","все задания","помощь","сделано","удалить задание"],"organizer":[{"flag":"COMPLETED","task":"Купи молоко","date":{"year":2021,"month":11,"dayOfMonth":18,"hourOfDay":12,"minute":30,"second":21}}],"deadlines":{"1639812621000Купи молоко":{"0":false,"300000":false,"86400000":false,"7200000":false}},"edits":{},"id":751261508}}

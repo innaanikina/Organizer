@@ -1,6 +1,7 @@
 package bot.commands.elem;
 
 import bot.LogicBot;
+import bot.services.UserService;
 
 public class Books {
     public static String booksHelp(LogicBot bot, String command){
@@ -13,8 +14,8 @@ public class Books {
     }
 
     public static String quitToBookMenu(LogicBot bot, String command) {
-        bot.statusActive = "BOOK";
-        bot.userService.updateStatusActiveByUserId(bot.id, "BOOK");
+        bot.statusActive = "BOOKS";
+        UserService.updateStatusActiveByUserId(bot.id, "BOOK");
         //менять команды одновременно?
         return "Вы в меню книг";
     }

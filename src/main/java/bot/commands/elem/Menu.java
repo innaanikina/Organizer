@@ -1,6 +1,7 @@
 package bot.commands.elem;
 
 import bot.LogicBot;
+import bot.services.UserService;
 
 public class Menu {
     public static String help(LogicBot bot, String command) {
@@ -13,7 +14,7 @@ public class Menu {
 
     public static String quitToMenu(LogicBot bot, String command) {
         bot.statusActive = "MENU";
-        bot.userService.updateStatusActiveByUserId(bot.id, "MENU");
+        UserService.updateStatusActiveByUserId(bot.id, "MENU");
         return "Вы в главном меню";
     }
 }

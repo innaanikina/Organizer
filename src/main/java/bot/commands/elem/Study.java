@@ -2,6 +2,7 @@ package bot.commands.elem;
 
 import bot.LogicBot;
 import bot.commands.schedule.Schedule;
+import bot.services.UserService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,13 +25,13 @@ public class Study {
     }
     public static String startClasses(LogicBot bot, String command) {
         bot.statusActive = "CLASSES";
-        bot.userService.updateStatusActiveByUserId(bot.id, "CLASSES");
+        UserService.updateStatusActiveByUserId(bot.id, "CLASSES");
         return "Введите день недели \n(в формате: пн, вт, ср, чт, пт, сб)";
     }
 
     public static String mainMenu(LogicBot bot, String command) {
         bot.statusActive = "STUDY";
-        bot.userService.updateStatusActiveByUserId(bot.id, "STUDY");
+        UserService.updateStatusActiveByUserId(bot.id, "STUDY");
         return "Вы в разделе учёбы";
     }
 

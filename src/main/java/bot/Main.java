@@ -100,6 +100,7 @@ public class Main extends BotPrimitive {
         result = EmojiParser.parseToUnicode(result);
         botLogic.updateStatusActive(botLogic);
 
+
         sendMsg(message, result);
         ///
         save();
